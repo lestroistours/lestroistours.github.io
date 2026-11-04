@@ -1,141 +1,368 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Association le temps d'un jeu</title>
+    <title>Le temps d'un jeu : les trois tours — jeux de société à Saint-Herblain</title>
     <base href="/">
 
-    <meta name="description" content="Association de jeu de société sur Saint-Herblain.">
+    <meta name="description" content="Le temps d'un jeu : les trois tours, association de jeux de société à Saint-Herblain. Soirées jeux tous les vendredis de 19h30 à minuit, gratuites pour les 3 premières séances.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="Rook.png">
-    <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-</head>
-<body>
+    <link rel="icon" type="image/png" href="Rook.png">
+
+    <!-- Open Graph : aperçu propre lors des partages sur Facebook, Discord, etc. -->
+    <meta property="og:title" content="Le temps d'un jeu : les trois tours">
+    <meta property="og:description" content="Association de jeux de société à Saint-Herblain. Soirées jeux tous les vendredis de 19h30 à minuit.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:image" content="/docs/assets/images/LTDJ-web.png">
+
     <style>
+        :root {
+            --accent: #4caf50;
+            --accent-clair: #eef7ee;
+            --accent-doux: #a5d6a7;
+            --texte: #2f3a54;
+            --texte-doux: #8891a8;
+            --fond: #f6f9f6;
+            --carte: #ffffff;
+            --ombre: 0 4px 16px rgba(0, 0, 0, 0.07);
+            --ombre-hover: 0 8px 24px rgba(76, 175, 80, 0.22);
+            --rayon: 14px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: snow;
+            margin: 0;
+            font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+            background-color: var(--fond);
+            color: var(--texte);
+            line-height: 1.6;
             cursor: default;
         }
 
-        h1 {
-            margin-top: 10px;
-            margin-bottom: 0px;
-            color: orange;
+        /* ---------- En-tête héro ---------- */
+        header {
+            text-align: center;
+            padding: 40px 16px 48px;
+            background: linear-gradient(160deg, #f6faf6 0%, #ebf4ec 55%, #ddefe2 100%);
+            border-bottom: 3px solid var(--accent-doux);
         }
 
-            h1:hover {
-                color: black;
-            }
-
-        h2 {
-            margin-top: -8px;
-            margin-left: 30px;
-            color: #b0b1a8;
+        header img {
+            max-width: 320px;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
         }
 
-        h4 {
-            margin-top: 8px;
-            margin-bottom: 8px;
+        header h1 {
+            margin: 12px 0 6px;
+            font-size: 2em;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+        }
+
+        header .sous-titre {
+            margin: 0;
+            font-size: 1.1em;
+            color: var(--texte-doux);
+        }
+
+        .bandeau {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            color: var(--accent);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 999px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            font-size: 0.95em;
+        }
+
+        .badge span { font-size: 1.1em; }
+
+        /* ---------- Sections ---------- */
+        .section {
+            max-width: 1280px;
+            margin: 36px auto;
+            padding: 0 16px;
+        }
+
+        .section > h2 {
+            text-align: center;
+            color: var(--accent);
+            font-size: 1.6em;
+            margin: 0 0 6px;
+        }
+
+        .section > .section-intro {
+            text-align: center;
+            color: var(--texte-doux);
+            margin: 0 0 24px;
         }
 
         .flex-container {
             display: flex;
-            flex-direction: row;
             flex-wrap: wrap;
-            justify-content: space-around;
+            justify-content: center;
+            gap: 20px;
         }
 
-        .flex-item {
-            flex-basis: 250px;
+        .card {
+            flex-basis: 300px;
             flex-grow: 1;
-            margin-top: 5px;
-            margin-bottom: 5px;
+            max-width: 480px;
+            background: var(--carte);
+            border-radius: var(--rayon);
+            box-shadow: var(--ombre);
+            padding: 24px 24px 28px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .cent {
-            flex-basis: 99%;
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--ombre-hover);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 12px;
+            font-size: 1.2em;
+            color: var(--texte);
+        }
+
+        .card h3::before {
+            content: "";
+            flex: 0 0 auto;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff7043;
+            box-shadow: 0 0 0 4px #ffe3d6;
+        }
+
+        .card p { margin: 0 0 12px; }
+        .card p:last-child { margin-bottom: 0; }
+
+        .card a {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ---------- Boutons d'action ---------- */
+        .actions {
+            text-align: center;
+            margin: 32px 0 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 6px;
+            padding: 12px 26px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+        }
+
+        .btn-principal {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-principal:hover {
+            background: #3b8c40;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondaire {
+            background: #fff;
+            color: var(--accent);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondaire:hover {
+            background: var(--accent-clair);
+            transform: translateY(-2px);
+        }
+
+        /* ---------- Widgets ---------- */
+        .embed {
+            width: 100%;
+            height: 400px;
+            border: 0;
+            border-radius: 10px;
+        }
+
+        /* ---------- Pied de page ---------- */
+        footer {
+            margin-top: 40px;
+            padding: 24px 16px;
+            background: #22315e;
+            color: #ced4da;
             text-align: center;
         }
 
-        .material-icons {
-            text-align: center;
+        footer a {
+            color: var(--accent-doux);
+            text-decoration: none;
+            font-weight: 600;
         }
 
-        .paragraphe {
-            padding-bottom: 8px;
-        }
-
-            .paragraphe.flex-item.mdc-card:hover {
-                background-color: rgb(242, 242, 242);
-            }
+        footer a:hover { text-decoration: underline; }
     </style>
-	<div id="fb-root"></div>
-	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0" nonce="OQLRqeFZ"></script>
-    <div class="flex-container">
-        <img src="/docs/assets/images/LTDJ-web.png" alt="Association le temps d'un jeu : les Trois tours" style="height: 250px !important;">
-    </div>
-    <div class="flex-container">
-        <div class="paragraphe flex-item mdc-card">
-            <div class="mdc-card__actions">
-                <h4>Association de jeux de société à Saint-Herblain</h4>
-            </div>
-            <div class="mdc-card__actions">
-                Le temps d’un jeu c’est un espace de détente pour tous et toutes, une parenthèse dans la semaine.
-                Nous organisons des soirées jeux de société tous les vendredis soirs de 19h30 à minuit. <br>
-				Les jeux sont apportés par les membres, et vont du petit jeu d'ambiance rapide au jeu "expert" qui peut durer toute la soirée.
-				Nous écoutons les souhaits de chacun(e) et nous répartissons ensuite sur plusieurs tables de jeux.
-            </div>
+
+    <!-- Données structurées : aide Google à comprendre et afficher l'association -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NGO",
+        "name": "Le temps d'un jeu : les trois tours",
+        "description": "Association de jeux de société à Saint-Herblain. Soirées jeux tous les vendredis de 19h30 à minuit.",
+        "email": "letempsdunjeu@outlook.fr",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Saint-Herblain",
+            "addressCountry": "FR"
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "https://schema.org/Friday",
+            "opens": "19:30",
+            "closes": "23:59"
+        },
+        "sameAs": [
+            "https://www.facebook.com/profile.php?id=61551556576756",
+            "https://discord.gg/289013169865883648"
+        ]
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <img src="/docs/assets/images/LTDJ-web.png" alt="Logo de l'association Le temps d'un jeu : les trois tours">
+        <h1>Le temps d'un jeu : les trois tours</h1>
+        <p class="sous-titre">Association de jeux de société à Saint-Herblain</p>
+        <div class="bandeau">
+            <span class="badge"><span>🎲</span> Tous les vendredis</span>
+            <span class="badge"><span>🕢</span> 19h30 – minuit</span>
+            <span class="badge"><span>✨</span> 3 premières séances gratuites</span>
         </div>
-        <div class="paragraphe flex-item mdc-card">
-            <div class="mdc-card__actions">
-                <h4>Nous situer</h4>
+    </header>
+
+    <main>
+        <section class="section">
+            <h2>Bienvenue autour de la table</h2>
+            <p class="section-intro">Une parenthèse dans la semaine, pour jouer, échanger et se détendre — tous et toutes bienvenus !</p>
+            <div class="flex-container">
+                <article class="card">
+                    <h3>Nos soirées jeux</h3>
+                    <p>
+                        Le temps d'un jeu, c'est un espace de détente pour tous et toutes, une parenthèse dans la semaine.
+                        Nous organisons des soirées jeux de société tous les vendredis soirs de 19h30 à minuit.
+                    </p>
+                    <p>
+                        Les jeux sont apportés par les membres et vont du petit jeu d'ambiance rapide au jeu « expert »
+                        qui peut durer toute la soirée. Nous écoutons les souhaits de chacun·e et nous répartissons
+                        ensuite sur plusieurs tables de jeux.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Nous situer</h3>
+                    <p>
+                        La salle Graines de café étant en travaux, nos soirées jeux se déroulent dans la salle
+                        Pablo Neruda du Centre Socio-Culturel du Sillon de Bretagne (à Saint-Herblain), dont l'accès
+                        se fait directement par l'arrière du bâtiment, côté parc.
+                    </p>
+                    <p>
+                        La localisation peut changer pendant les vacances scolaires ou en cas d'indisponibilité de la
+                        salle : contactez-nous pour plus d'informations.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <h3>Modalités d'accès</h3>
+                    <p>
+                        L'association est accessible <strong>gratuitement pour les 3 premières séances</strong>.
+                        Au-delà, une cotisation de <strong>20 €</strong> vous sera demandée.
+                    </p>
+                    <p>
+                        L'association n'est pas accessible aux mineurs non accompagnés.
+                    </p>
+                </article>
             </div>
-            <div class="mdc-card__actions">
-                La salle Graines de café étant en travaux, nos soirées jeux se déroulent dans la salle Pablo Neruda du Centre Socio-Culturel du Sillon de Bretagne (à Saint-Herblain), dont l'accès se fait directement par l'arrière du bâtiment côté parc. <br>
-				La localisation des soirées peut changer pendant les vacances scolaires ou en cas d'indisponibilité de la salle. N'hésitez pas à nous contacter via notre discord ou par mail à l'adresse letempsdunjeu@outlook.fr pour plus d'informations.
+            <div class="actions">
+                <a class="btn btn-principal" href="https://discord.gg/289013169865883648" target="_blank" rel="noopener">Rejoindre le Discord</a>
+                <a class="btn btn-secondaire" href="mailto:letempsdunjeu@outlook.fr">Nous écrire</a>
             </div>
-        </div>
-        <div class="paragraphe flex-item mdc-card">
-            <div class="mdc-card__actions">
-                <h4>Modalités d'accès</h4>
+        </section>
+
+        <section class="section">
+            <h2>Retrouvez-nous</h2>
+            <p class="section-intro">En ligne comme autour d'une table, suivez nos actualités et venez nous rencontrer.</p>
+            <div class="flex-container">
+                <article class="card">
+                    <h3>Google Maps</h3>
+                    <iframe class="embed" title="Carte de la salle Pablo Neruda, Centre Socio-Culturel du Sillon de Bretagne, Saint-Herblain"
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10834.508637302568!2d-1.6080041!3d47.2434384!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x91b8a83f7bed352!2sLe%20temps%20d&#39;un%20jeu%20%3A%20les%20trois%20tours%20(association%20de%20jeu%20de%20soci%C3%A9t%C3%A9)!5e0!3m2!1sfr!2sfr!4v1657710607252!5m2!1sfr!2sfr"
+                            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </article>
+
+                <article class="card">
+                    <h3>Discord</h3>
+                    <iframe class="embed" title="Widget Discord de l'association Le temps d'un jeu"
+                            src="https://discordapp.com/widget?id=289013169865883648&amp;theme=dark"
+                            allowtransparency="true"></iframe>
+                </article>
+
+                <article class="card">
+                    <h3>Facebook</h3>
+                    <div class="fb-page"
+                         data-href="https://www.facebook.com/profile.php?id=61551556576756"
+                         data-tabs="timeline"
+                         data-width="500"
+                         data-height="400"
+                         data-small-header="false"
+                         data-adapt-container-width="true"
+                         data-hide-cover="false"
+                         data-show-facepile="true">
+                        <blockquote cite="https://www.facebook.com/profile.php?id=61551556576756" class="fb-xfbml-parse-ignore">
+                            <a href="https://www.facebook.com/profile.php?id=61551556576756">Le temps d'un jeu : les trois tours</a>
+                        </blockquote>
+                    </div>
+                </article>
             </div>
-            <div class="mdc-card__actions">
-                <!--<b style="color:red">L'association est fermée tout le mois d'Août, réouverture en Septembre 2022.</b>
-                Dernière session le 29 Juillet 2022.-->
-                L'association est accessible gratuitement pour les 3 premières séances. Au-delà, une cotisation de 20€ vous sera demandée. L'association n'est pas accessible aux mineurs non accompagnés.
-            </div>
-        </div>
-    </div>
-    <div class="flex-container">
-        <div class="paragraphe flex-item mdc-card">
-            <div class="mdc-card__actions">
-                <h4>Google Maps</h4>
-            </div>
-            <div class="mdc-card__actions">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10834.508637302568!2d-1.6080041!3d47.2434384!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x91b8a83f7bed352!2sLe%20temps%20d&#39;un%20jeu%20%3A%20les%20trois%20tours%20(association%20de%20jeu%20de%20soci%C3%A9t%C3%A9)!5e0!3m2!1sfr!2sfr!4v1657710607252!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-        </div>
-        <div class="paragraphe flex-item mdc-card">
-            <div class="mdc-card__actions">
-                <h4>Discord</h4>
-            </div>
-            <div class="mdc-card__actions">
-                <iframe src="https://discordapp.com/widget?id=289013169865883648&amp;theme=dark" allowtransparency="true"
-                        height="400px" frameborder="0"></iframe>
-            </div>
-        </div>
-		        <div class="paragraphe flex-item mdc-card">
-            <div class="mdc-card__actions">
-                <h4>Facebook</h4>
-            </div>
-            <div class="mdc-card__actions">
-                <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61551556576756" data-tabs="timeline" data-width="400px" data-height="400px" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/profile.php?id=61551556576756" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=61551556576756">Le temps d&#039;un jeu : les trois tours</a></blockquote></div>
-            </div>
-        </div>
-    </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            Le temps d'un jeu : les trois tours —
+            <a href="mailto:letempsdunjeu@outlook.fr">letempsdunjeu@outlook.fr</a>
+        </p>
+    </footer>
+
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+            src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0"
+            nonce="OQLRqeFZ"></script>
 </body>
 </html>
